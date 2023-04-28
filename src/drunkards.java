@@ -52,6 +52,15 @@ class myStack {
         }
         return result;
     }
+    public int findMin() {
+        int result = 0;
+        for (int i = 0; i < stackArray.length; i++) {
+            if (result > stackArray[i]) {
+                result = stackArray[i];
+            }
+        }
+        return result;
+    }
 
 }
 
@@ -72,11 +81,11 @@ public class drunkards {
         String secondCards = scanner.nextLine();
         fillPlayer(playerFirst, firstCards);
         fillPlayer(playerSecond, secondCards);
-        playerFirst.print();
         int maxCard = max(playerFirst.findMax(), playerSecond.findMax());
+        int minCard = min(playerFirst.findMin(), playerSecond.findMin());
 
         while (!playerFirst.isEmpty() && !playerSecond.isEmpty() && countStep != maxCountStep) {
-            if (hideWinner(playerSecond, playerSecond, maxCard) == 1) {
+            if (hideWinner(playerSecond, playerSecond, maxCard, minCard) == 1) {
                 winner(playerFirst, playerSecond);
             }
             else {
@@ -109,11 +118,11 @@ public class drunkards {
     }
 
 
-    public static int hideWinner(myStack One, myStack Two, int maxCard) {
-        if (One.getLast() == maxCard && Two.getLast() == 0) {
+    public static int hideWinner(myStack One, myStack Two, int maxCard, int minCard) {
+        if (One.getLast() == maxCard && Two.getLast() == minCard) {
             return 2;
         }
-        else if (One.getLast() == 0 && Two.getLast() == maxCard) {
+        else if (One.getLast() == minCard && Two.getLast() == maxCard) {
             return 1;
         }
         else if (One.getLast() > Two.getLast()) {
@@ -128,14 +137,13 @@ public class drunkards {
         win.removeLast();
     }
 
-
-
     public static int max(int a, int b) {
-        if (a > b) {
-            return a;
-        }
-        else {
-            return b;
-        }
+        if (a > b) return a;
+        else return b;
+    }
+
+    public static int min(int a, int b) {
+        if (a < b) return a;
+        else return b;
     }
 }
